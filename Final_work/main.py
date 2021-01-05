@@ -6,7 +6,7 @@ from numba import njit
 import time
 
 @njit
-def numpy_shit(c_lib):
+def numpy_test(c_lib):
     L = 2000
     M = 5000
     N = 3000
