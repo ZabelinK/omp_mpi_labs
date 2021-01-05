@@ -5,8 +5,21 @@ import numpy as np
 from numba import njit
 import time
 
-@njit
-def numpy_test(c_lib):
+if __name__ == "__main__":
+    # Load the shared library into ctypes
+    libname = pathlib.Path().absolute() / "./lib/libMyMath.so"
+    c_lib = ctypes.CDLL(libname)
+
+    ND_POINTER_1 = np.ctypeslib.ndpointer(dtype=np.int32, 
+                                      ndim=2,
+                                      flags="C")
+
+    c_lib.matrix_mul.argtypes = [ND_POINTER_1, ND_POINTER_1, ctypes.c_uint, ctypes.c_uint, ctypes.c_uint]
+    c_lib.matrix_mul.restype = ctypes.c_void_p
+
+    c_lib.free_matrix.argtypes = [ctypes.c_void_p]
+
+
     L = 2000
     M = 5000
     N = 3000
@@ -33,19 +46,3 @@ def numpy_test(c_lib):
         print("IT WORKS!")
 
     c_lib.free_matrix(data_pointer)
-
-if __name__ == "__main__":
-    # Load the shared library into ctypes
-    libname = pathlib.Path().absolute() / "./lib/libMyMath.so"
-    c_lib = ctypes.CDLL(libname)
-
-    ND_POINTER_1 = np.ctypeslib.ndpointer(dtype=np.int32, 
-                                      ndim=2,
-                                      flags="C")
-
-    c_lib.matrix_mul.argtypes = [ND_POINTER_1, ND_POINTER_1, ctypes.c_uint, ctypes.c_uint, ctypes.c_uint]
-    c_lib.matrix_mul.restype = ctypes.c_void_p
-
-    c_lib.free_matrix.argtypes = [ctypes.c_void_p]
-
-    numpy_shit(c_lib )
