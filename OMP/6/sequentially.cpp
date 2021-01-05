@@ -26,8 +26,6 @@ int main(int argc, char** argv)
 
     size_t N = atol(argv[1]);
 
-    omp_set_num_threads(std::min(omp_get_max_threads(), MAX_THREADS));
-
     std::vector<unsigned int> prime_values;
 
     for (size_t i = 0; i < N; ++i) {
