@@ -20,9 +20,9 @@ if __name__ == "__main__":
     c_lib.free_matrix.argtypes = [ctypes.c_void_p]
 
 
-    L = 2000
-    M = 5000
-    N = 3000
+    L = 200
+    M = 500
+    N = 300
 
     m1 = np.random.randint(size=(L, M), low=-2, high=2, dtype=np.int32)
     m2 = np.random.randint(size=(M, N), low=-2, high=2, dtype=np.int32)
@@ -42,7 +42,7 @@ if __name__ == "__main__":
     
     new_array = np.ctypeslib.as_array(data_pointer,shape=(L, N))
 
-    if (new_array == np_arr).all():
-        print("IT WORKS!")
+    if (new_array != np_arr).all():
+        print("IT WORKS WRONG")
 
     c_lib.free_matrix(data_pointer)
